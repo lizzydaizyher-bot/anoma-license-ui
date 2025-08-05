@@ -6,13 +6,33 @@ const PLAN_PRICE = {
   lifetime: "0.002"
 };
 
+document.addEventListener("DOMContentLoaded", () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const token = urlParams.get("token");
+
+  if (token) {
+    const input = document.getElementById("tokenInput");
+    if (input) input.value = token;
+    console.log("✅ Token geldi:", token);
+  } else {
+    console.warn("❌ Token yok.");
+  }
+
+  const buyBtn = document.getElementById("buyLicenseBtn");
+  if (buyBtn) {
+    buyBtn.addEventListener("click", buyLicense);
+  } else {
+    console.warn("❌ Buy button bulunamadı.");
+  }
+});
+
 async function buyLicense() {
   const token = document.getElementById("tokenInput").value.trim();
   const plan = document.getElementById("plan").value;
   const ethAmount = PLAN_PRICE[plan];
 
-  if (!window.ethereum) return alert("Metamask is not installed!");
-  if (!token) return alert("Please enter your token.");
+  if (!window.ethereum) return alert("❌ Metamask kurulu değil!");
+  if (!token) return alert("❌ Lütfen token girin.");
 
   try {
     const accounts = await ethereum.request({ method: "eth_requestAccounts" });
@@ -24,30 +44,31 @@ async function buyLicense() {
       value: (BigInt(parseFloat(ethAmount) * 1e18)).toString(16)
     };
 
-    const txHash = await ethereum.request({ method: "eth_sendTransaction", params: [tx] });
+    const txHash = await ethereum.request({
+      method: "eth_sendTransaction",
+      params: [tx]
+    });
 
-    // Sunucuya gönderme işlemi
-    const res = await fetch(`${LICENSE_SERVER}/verify-license`, {
+    console.log("✅ TX gönderildi:", txHash);
+
+    const res = await fetch(`${LICENSE_SERVER}/add-license`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         wallet: sender,
-        token,
-        plan,
-        txHash
+        token: token,
+        licenseType: plan,
+        txHash: txHash
       })
     });
 
     const result = await res.json();
+
     if (result.success) {
-      document.getElementById("result").innerText = "✅ License successfully activated!";
+      document.getElementById("result").innerText = "✅ Lisans başarıyla aktif edildi!";
     } else {
-      document.getElementById("result").innerText = "❌ License activation failed!";
+      document.getElementById("result").innerText = "❌ Lisans aktif edilemedi.";
     }
   } catch (err) {
-    console.error(err);
-    document.getElementById("result").innerText = "❌ Transaction canceled or error occurred.";
-  }
-}
-
-window.buyLicense = buyLicense;
+    console.error("❌ Hata:", err);
+    do
