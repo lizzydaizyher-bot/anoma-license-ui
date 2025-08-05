@@ -1,0 +1,18 @@
+<!DOCTYPE html><html><body style="background:#111;color:#fff;text-align:center;padding:40px">
+<h1>Test Metamask BNB</h1>
+<button id="testBtn">Connect Wallet</button>
+<script>
+document.getElementById("testBtn").addEventListener("click", async ()=> {
+  if (!window.ethereum) {return alert("Install Metamask");}
+  if (window.ethereum.chainId !== "0x38") {
+    await window.ethereum.request({method: "wallet_switchEthereumChain",params:[{chainId:"0x38"}]}).catch(console.error);
+  }
+  try {
+    const accs = await window.ethereum.request({method: "eth_requestAccounts"});
+    alert("Connected "+accs[0]);
+  } catch(err) {
+    alert("Rejected or error");
+  }
+});
+</script>
+<h2>heay</h2></body></html> 
