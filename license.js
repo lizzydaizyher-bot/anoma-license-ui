@@ -71,4 +71,6 @@ async function buyLicense() {
     }
   } catch (err) {
     console.error("❌ Hata:", err);
-    do
+    document.getElementById("result").innerText = "❌ İşlem iptal edildi veya hata oluştu.";
+  }
+}
