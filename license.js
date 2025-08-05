@@ -13,16 +13,16 @@ document.addEventListener("DOMContentLoaded", () => {
   if (token) {
     const input = document.getElementById("tokenInput");
     if (input) input.value = token;
-    console.log("✅ Token geldi:", token);
+    console.log("✅ Token come:", token);
   } else {
-    console.warn("❌ Token yok.");
+    console.warn("❌ No token.");
   }
 
   const buyBtn = document.getElementById("buyLicenseBtn");
   if (buyBtn) {
     buyBtn.addEventListener("click", buyLicense);
   } else {
-    console.warn("❌ Buy button bulunamadı.");
+    console.warn("❌ Cannot find buy.");
   }
 });
 
@@ -31,8 +31,8 @@ async function buyLicense() {
   const plan = document.getElementById("plan").value;
   const ethAmount = PLAN_PRICE[plan];
 
-  if (!window.ethereum) return alert("❌ Metamask kurulu değil!");
-  if (!token) return alert("❌ Lütfen token girin.");
+  if (!window.ethereum) return alert("❌ Metamask no found!");
+  if (!token) return alert("❌ Please put your token.");
 
   try {
     const accounts = await ethereum.request({ method: "eth_requestAccounts" });
@@ -65,12 +65,12 @@ async function buyLicense() {
     const result = await res.json();
 
     if (result.success) {
-      document.getElementById("result").innerText = "✅ Lisans başarıyla aktif edildi!";
+      document.getElementById("result").innerText = "✅ License succesfully activated!";
     } else {
-      document.getElementById("result").innerText = "❌ Lisans aktif edilemedi.";
+      document.getElementById("result").innerText = "❌ Lisans activation failed.";
     }
   } catch (err) {
     console.error("❌ Hata:", err);
-    document.getElementById("result").innerText = "❌ İşlem iptal edildi veya hata oluştu.";
+    document.getElementById("result").innerText = "❌ Process cancelled.";
   }
 }
