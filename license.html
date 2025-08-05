@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Buy License - Anoma</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 40px;
+      background: #111;
+      color: #fff;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      cursor: pointer;
+      background: #00c2ff;
+      color: black;
+      border: none;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+    input, select {
+      padding: 10px;
+      width: 300px;
+      font-size: 16px;
+      margin-top: 15px;
+      background: #222;
+      color: #fff;
+      border: 1px solid #555;
+      border-radius: 5px;
+    }
+    #result {
+      margin-top: 30px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🔐 Buy Anoma License</h1>
+
+  <p>Enter your Anoma token:</p>
+  <input type="text" id="tokenInput" readonly />
+
+
+  <p>Select your license type:</p>
+  <select id="plan">
+    <option value="weekly">1 Week - 0.001 ETH</option>
+    <option value="lifetime">Lifetime - 0.002 ETH</option>
+  </select>
+
+  <br><br>
+  <button id="buyLicenseBtn">Buy with Metamask</button>
+
+
+  <div id="result"></div>
+
+  <script>
+    const LICENSE_SERVER = "https://anoma-license-server.onrender.com";
+    const RECEIVER = "0x0729B8E35e63fE518d257e1D492286D74eD60169";
+
+    const PLAN_PRICE = {
+      weekly: "0.001",
+      lifetime: "0.002"
+    };
+
+    
+
+    
+  document.addEventListener("DOMContentLoaded", () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get("token");
+
+    if (token) {
+      const input = document.getElementById("tokenInput");
+      if (input) input.value = token;
+
+      // veya token ile direkt işlem yapacaksan buraya koy
+      console.log("token:", token);
+    } else {
+      console.warn("❌ wrong token.");
+    }
+  });
+
+
+  </script>
+<script src="license.js"></script>
+
+</body>
+</html>
