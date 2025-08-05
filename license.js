@@ -6,19 +6,6 @@ const PLAN_PRICE = {
   lifetime: "0.002"
 };
 
-document.addEventListener("DOMContentLoaded", () => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const token = urlParams.get("token");
-
-  if (token) {
-    const input = document.getElementById("tokenInput");
-    if (input) input.value = token;
-    console.log("token:", token);
-  } else {
-    console.warn("❌ wrong token.");
-  }
-});
-
 async function buyLicense() {
   const token = document.getElementById("tokenInput").value.trim();
   const plan = document.getElementById("plan").value;
@@ -26,7 +13,7 @@ async function buyLicense() {
 
   if (!window.ethereum) return alert("Metamask is not installed!");
   if (!token) return alert("Please enter your token.");
-console.log("Buy License fonksiyonu çağrıldı.");
+  console.log("Buy License fonksiyonu çağrıldı.");
 
   try {
     const accounts = await ethereum.request({ method: "eth_requestAccounts" });
@@ -61,7 +48,9 @@ console.log("Buy License fonksiyonu çağrıldı.");
     document.getElementById("result").innerText = "❌ Transaction canceled or error occurred.";
   }
 }
+
 window.buyLicense = buyLicense;
+
 document.addEventListener("DOMContentLoaded", () => {
   const urlParams = new URLSearchParams(window.location.search);
   const token = urlParams.get("token");
@@ -70,6 +59,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const input = document.getElementById("tokenInput");
     if (input) input.value = token;
     console.log("token:", token);
+  } else {
+    console.warn("❌ wrong token.");
   }
 
   // Butonu olaya bağla 🔥
