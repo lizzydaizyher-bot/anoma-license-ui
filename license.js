@@ -5,29 +5,6 @@ const PLAN_PRICE = {
   weekly: "0.001",
   lifetime: "0.002"
 };
-document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("buyLicenseBtn").addEventListener("click", buyLicense);
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const token = urlParams.get("token");
-
-  if (token) {
-    const input = document.getElementById("tokenInput");
-    if (input) input.value = token;
-    console.log("token:", token);
-  } else {
-    console.warn("❌ wrong token.");
-  }
-
-  const buyBtn = document.getElementById("buyLicenseBtn");
-  if (buyBtn) {
-    buyBtn.addEventListener("click", buyLicense);
-  } else {
-    console.warn("Buy button not found.");
-  }
-});
 
 async function buyLicense() {
   const token = document.getElementById("tokenInput").value.trim();
@@ -36,7 +13,6 @@ async function buyLicense() {
 
   if (!window.ethereum) return alert("Metamask is not installed!");
   if (!token) return alert("Please enter your token.");
-  console.log("Buy License fonksiyonu çağrıldı.");
 
   try {
     const accounts = await ethereum.request({ method: "eth_requestAccounts" });
@@ -48,15 +24,17 @@ async function buyLicense() {
       value: (BigInt(parseFloat(ethAmount) * 1e18)).toString(16)
     };
 
-    await ethereum.request({ method: "eth_sendTransaction", params: [tx] });
+    const txHash = await ethereum.request({ method: "eth_sendTransaction", params: [tx] });
 
-    const res = await fetch(`${LICENSE_SERVER}/add-license`, {
+    // Sunucuya gönderme işlemi
+    const res = await fetch(`${LICENSE_SERVER}/verify-license`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         wallet: sender,
-        token: token,
-        licenseType: plan
+        token,
+        plan,
+        txHash
       })
     });
 
@@ -71,3 +49,5 @@ async function buyLicense() {
     document.getElementById("result").innerText = "❌ Transaction canceled or error occurred.";
   }
 }
+
+window.buyLicense = buyLicense;
