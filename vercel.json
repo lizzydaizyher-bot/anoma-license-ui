@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/buy", "destination": "/license.html" }
+  ]
+}
