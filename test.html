@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Metamask Test</title>
+  </head>
+  <body style="background:#111; color:white; text-align:center; padding:40px">
+    <h1>Metamask Test</h1>
+    <button id="testMetamask" style="padding: 15px 30px; font-size: 18px;">Connect Metamask</button>
+
+    <script>
+      document.getElementById("testMetamask").addEventListener("click", async () => {
+        if (!window.ethereum) {
+          alert("Metamask not installed");
+          return;
+        }
+
+        try {
+          const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+          alert("Connected: " + accounts[0]);
+        } catch (err) {
+          alert("Error: " + err.message);
+        }
+      });
+    </script>
+  </body>
+</html>
