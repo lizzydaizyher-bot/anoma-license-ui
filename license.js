@@ -5,6 +5,9 @@ const PLAN_PRICE = {
   weekly: "0.001",
   lifetime: "0.002"
 };
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("buyLicenseBtn").addEventListener("click", buyLicense);
+});
 
 document.addEventListener("DOMContentLoaded", () => {
   const urlParams = new URLSearchParams(window.location.search);
