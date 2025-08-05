@@ -6,6 +6,26 @@ const PLAN_PRICE = {
   lifetime: "0.002"
 };
 
+document.addEventListener("DOMContentLoaded", () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const token = urlParams.get("token");
+
+  if (token) {
+    const input = document.getElementById("tokenInput");
+    if (input) input.value = token;
+    console.log("token:", token);
+  } else {
+    console.warn("❌ wrong token.");
+  }
+
+  const buyBtn = document.getElementById("buyLicenseBtn");
+  if (buyBtn) {
+    buyBtn.addEventListener("click", buyLicense);
+  } else {
+    console.warn("Buy button not found.");
+  }
+});
+
 async function buyLicense() {
   const token = document.getElementById("tokenInput").value.trim();
   const plan = document.getElementById("plan").value;
@@ -48,26 +68,3 @@ async function buyLicense() {
     document.getElementById("result").innerText = "❌ Transaction canceled or error occurred.";
   }
 }
-
-window.buyLicense = buyLicense;
-
-document.addEventListener("DOMContentLoaded", () => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const token = urlParams.get("token");
-
-  if (token) {
-    const input = document.getElementById("tokenInput");
-    if (input) input.value = token;
-    console.log("token:", token);
-  } else {
-    console.warn("❌ wrong token.");
-  }
-
-  // Butonu olaya bağla 🔥
-  const buyBtn = document.getElementById("buyLicenseBtn");
-  if (buyBtn) {
-    buyBtn.addEventListener("click", buyLicense);
-  } else {
-    console.warn("Buy button not found.");
-  }
-});
