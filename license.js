@@ -2,8 +2,8 @@ const LICENSE_SERVER = "https://anoma-license-server.onrender.com";
 const RECEIVER = "0x0729B8E35e63fE518d257e1D492286D74eD60169";
 
 const PLAN_PRICE = {
-  weekly: "0.0001",
-  lifetime: "0.002"
+  weekly: "0.007",
+  lifetime: "0.025"
 };
 
 document.addEventListener("DOMContentLoaded", () => {
